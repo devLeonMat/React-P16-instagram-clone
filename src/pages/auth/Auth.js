@@ -4,16 +4,17 @@ import instLogo from "../../assets/img/Instagram_logo.png";
 import RegisterForm from "../../components/Auth/RegisterForm/RegisterForm";
 
 import "./Auth.scss";
+import LoginForm from "../../components/Auth/LoginForm";
 
 
 export default function Auth() {
 
-    const [showLogin, setShowLogin] = useState(false);
+    const [showLogin, setShowLogin] = useState(true);
     return (
         <Container fluid className="auth">
             <Image src={instLogo}/>
             <div className="container-form">
-                {showLogin ? <p>formulario de login</p> : <RegisterForm setShowLogin={setShowLogin}/>}
+                {showLogin ? <LoginForm/>: <RegisterForm setShowLogin={setShowLogin}/>}
             </div>
             <div className="change-form">
                 <p>
