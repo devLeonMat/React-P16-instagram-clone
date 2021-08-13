@@ -1,19 +1,15 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useMemo} from "react";
 import {ApolloProvider,} from '@apollo/client'
 import client from "./config/apollo";
 import {ToastContainer} from "react-toastify";
 import Auth from "./pages/auth";
 import {getToken} from "./utils/token";
 import AuthContext from "./context/AuthContext";
+import Home from "./pages/home";
 
 
 export default function App() {
     const [auth, setAuth] = useState(undefined);
-
-    const authData = {
-        name: "leon",
-
-    }
 
     useEffect(() => {
         const token = getToken();
@@ -24,10 +20,28 @@ export default function App() {
         }
     }, []);
 
+    const logout = () => {
+        console.log("Cerrar Sesion")
+    }
+
+    const setUser = (user) => {
+        setAuth(user)
+    }
+
+    const authData = useMemo(
+        () => ({
+            auth,
+            logout,
+            setUser
+        }),
+        [auth]
+    )
+
+
     return (
         <ApolloProvider client={client}>
-            <AuthContext.Provider value={auth}>
-                {!auth ? <Auth/> : <h1>Estas logueado</h1>}
+            <AuthContext.Provider value={authData}>
+                {!auth ? <Auth/> : <Home/>}
                 <ToastContainer
                     position="top-right"
                     autoClose={5000}
